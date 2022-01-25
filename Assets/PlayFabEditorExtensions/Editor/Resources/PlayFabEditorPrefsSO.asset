@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DevAccountEmail: xmishon@mail.ru
   DevAccountToken: 8qk9b8tksobnafqa83q5gn9ca87dk7ky1prjsbb5ii9x3dzn7k16yps3xzb81bdgp3w3gjenydmkwtm9nd74x61388sr98pntnkojnj6qrt7778oxrnuhj1bzpmqyogeyqf5encrc891zydk4ysb93tfbzt8txuphpbuywympmtsc9tzka848cpy9ekbzfrf16kojqwa
-  SelectedStudio: 
+  SelectedStudio: xMisHon Games
   SdkPath: Assets/PlayFabSDK
   EdExPath: 
   LocalCloudScriptPath: 
   PanelIsShown: 0
-  curMainMenuIdx: 0
+  curMainMenuIdx: 1
   curSubMenuIdx: 0
