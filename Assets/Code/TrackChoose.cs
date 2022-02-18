@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class TrackChoose : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class TrackChoose : MonoBehaviour
 
     private readonly List<TrackPreviewButton> _trackButtons = new List<TrackPreviewButton>();
 
-    public void TracksArray()
+    public void FillTracksArray()
     {
         foreach (var track in _tracks)
         {
@@ -27,8 +28,17 @@ public class TrackChoose : MonoBehaviour
                     button.SetSelected(false);
                 }
                 trackPreviewButton.SetSelected(true);
-
+                if (GameCore.instance != null)
+                {
+                    GameCore.instance.trackSetup.trackConfigNum = track.configNum;
+                }
+                else
+                {
+                    new GameCore().trackSetup.trackConfigNum = track.configNum;
+                }
+                SceneManager.LoadScene(track.sceneNum);
             });
+            trackPreviewButton.transform.SetParent(_trackListPanel.transform);
         }
     }
 }

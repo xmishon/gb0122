@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.Cameras;
+using UnityEngine.SceneManagement;
 
 public class RaceManager : MonoBehaviour
 {
@@ -17,13 +18,23 @@ public class RaceManager : MonoBehaviour
         }
         else
         {
+            LoadTrackConfing();
+            FindSpawntPoints();
             InstantiateCar();
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            SceneManager.LoadScene(1);
         }
     }
 
     private void LoadTrackConfing()
     {
-
+        Instantiate(_trackConfigs[GameCore.instance.trackSetup.trackConfigNum]);
     }
 
     private void FindSpawntPoints()
