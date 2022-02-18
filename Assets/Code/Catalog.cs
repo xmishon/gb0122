@@ -13,6 +13,7 @@ public class Catalog : MonoBehaviour
     [SerializeField] GameObject _carListPanel;
 
     private readonly Dictionary<string, CatalogItem> _catalog = new Dictionary<string, CatalogItem>();
+    private readonly List<CarPreviewButton> _carPreviewButtons = new List<CarPreviewButton>();
 
     public void GetCatalog()
     {
@@ -43,7 +44,8 @@ public class Catalog : MonoBehaviour
             if(item.Value.ItemClass == CAR_CLASS_NAME)
             {
                 GameObject carButton = GameObject.Instantiate(Resources.Load<GameObject>(CAR_BUTTON_NAME));
-                CarPrevirewButton carPreviewButton = carButton.GetComponent<CarPrevirewButton>();
+                CarPreviewButton carPreviewButton = carButton.GetComponent<CarPreviewButton>();
+                _carPreviewButtons.Add(carPreviewButton);
                 uint price;
                 if (item.Value.VirtualCurrencyPrices.TryGetValue("DG", out price))
                 {
@@ -62,7 +64,11 @@ public class Catalog : MonoBehaviour
                     {
                         new GameCore().carSetup.currentCarId = item.Value.ItemId;
                     }
-                    SceneManager.LoadScene(2); 
+                    foreach (var button in _carPreviewButtons)
+                    {
+                        button.SetIsBought(false);
+                    }
+                    carPreviewButton.SetIsBought(true);
                 });
                 carButton.transform.SetParent(_carListPanel.transform);
             }

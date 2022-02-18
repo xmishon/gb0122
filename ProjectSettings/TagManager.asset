@@ -8,13 +8,13 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - 
-  - 
+  - Wheels
+  - Fencing
   - PostProcessing
-  - 
+  - Triggers
   - 
   - 
   - 
