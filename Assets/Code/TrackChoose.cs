@@ -15,6 +15,12 @@ public class TrackChoose : MonoBehaviour
 
     public void FillTracksArray()
     {
+        int childNums = _trackListPanel.transform.childCount;
+        for (int i = 0; i < childNums; i++)
+        {
+            Destroy(_trackListPanel.transform.GetChild(i).gameObject);
+        }
+        _trackButtons.Clear();
         foreach (var track in _tracks)
         {
             GameObject trackButton = Instantiate(Resources.Load<GameObject>(TRACK_BUTTON_NAME));
@@ -36,7 +42,7 @@ public class TrackChoose : MonoBehaviour
                 {
                     new GameCore().trackSetup.trackConfigNum = track.configNum;
                 }
-                SceneManager.LoadScene(track.sceneNum);
+                GameCore.instance.trackSetup.trackSceneNum = track.sceneNum;
             });
             trackPreviewButton.transform.SetParent(_trackListPanel.transform);
         }

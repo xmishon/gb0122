@@ -30,8 +30,11 @@ public class Catalog : MonoBehaviour
     {
         foreach(CatalogItem item in catalog)
         {
-            _catalog.Add(item.ItemId, item);
-            Debug.Log($"Catalog item {item.DisplayName} ({item.ItemClass}) successfully loaded!");
+            if (!_catalog.ContainsKey(item.ItemId))
+            {
+                _catalog.Add(item.ItemId, item);
+                Debug.Log($"Catalog item {item.DisplayName} ({item.ItemClass}) successfully loaded!");
+            }
         }
         FillButtonsArray();
     }

@@ -7,7 +7,11 @@ namespace Car
     [RequireComponent(typeof(CarController))]
     public class CarUserControl : MonoBehaviour
     {
+        [SerializeField]
+        private float _slowMotionFactor = 0.2f;
+
         private CarController _carController;
+        private bool _slowMoution = false;
 
         void Awake()
         {
@@ -24,6 +28,18 @@ namespace Car
                 handbrake = 1f;
 
             _carController.Move(h, v, v, handbrake);
+            if (Input.GetKey(KeyCode.LeftControl))
+            {
+                if (_slowMoution)
+                {
+                    Time.timeScale = 1.0f;
+                }
+                else
+                {
+                    Time.timeScale = _slowMotionFactor;
+                }
+                _slowMoution = !_slowMoution;
+            }
         }
     }
 }
