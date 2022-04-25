@@ -42,7 +42,7 @@ public class PhotonLogin : MonoBehaviourPunCallbacks
         if (!PhotonNetwork.InRoom)
         {
             RoomOptions roomOptions = new RoomOptions();
-            roomOptions.MaxPlayers = 2;
+            roomOptions.MaxPlayers = 4;
             roomOptions.IsOpen = true;
             roomOptions.IsVisible = true;
             roomOptions.PublishUserId = true;

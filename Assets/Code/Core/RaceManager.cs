@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.Cameras;
 using UnityEngine.SceneManagement;
+using Photon.Pun;
 
 public class RaceManager : MonoBehaviour
 {
@@ -21,8 +22,18 @@ public class RaceManager : MonoBehaviour
         {
             LoadTrackConfing();
             FindSpawntPoints();
-            InstantiateCar();
+            InstantiatePlayers();
             InstantiateUI();
+        }
+    }
+
+    private void InstantiatePlayers()
+    {
+        for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+        {
+            string carId = (string)PhotonNetwork.PlayerList[i].CustomProperties["carId"];
+            if (PhotonNetwork.PlayerList[i].IsLocal)
+                InstantiateCar(carId, i, PhotonNetwork.PlayerList[i].IsLocal);
         }
     }
 
@@ -44,12 +55,23 @@ public class RaceManager : MonoBehaviour
         _startPoints = FindObjectOfType<SpawnPoints>().spawnPoints;
     }
 
-    private void InstantiateCar()
+    private void InstantiateCar(string carId, int carPosition, bool isMine)
     {
-        _car = Instantiate(Resources.Load<GameObject>(GameCore.instance.carSetup.currentCarId));
-        _car.transform.position = _startPoints[0].transform.position;
-        _car.transform.rotation = _startPoints[0].transform.rotation;
-        _camera.FindAndTargetPlayer();
+        GameObject car = PhotonNetwork.Instantiate(carId,
+            _startPoints[carPosition].transform.position,
+            _startPoints[carPosition].transform.rotation);
+        if (isMine)
+        {
+            _car = car;
+            _car.tag = "Player";
+            _camera.FindAndTargetPlayer();
+            _car.GetComponent<Car.CarUserControl>().enabled = true;
+        }
+        else
+        {
+            car.tag = "Enemy";
+            car.GetComponent<Car.CarUserControl>().enabled = false;
+        }
     }
     private void InstantiateUI()
     {

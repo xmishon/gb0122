@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using ExitGames.Client.Photon;
+using Photon.Pun;
 using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
@@ -41,6 +43,10 @@ public class Catalog : MonoBehaviour
 
     private void FillButtonsArray()
     {
+        for (int i = 0;i < _carListPanel.transform.childCount; i++)
+        {
+            Destroy(_carListPanel.transform.GetChild(i).gameObject);
+        }
         foreach (var item in _catalog)
         {
             if(item.Value.ItemClass == CAR_CLASS_NAME)
@@ -66,6 +72,9 @@ public class Catalog : MonoBehaviour
                     {
                         new GameCore().carSetup.currentCarId = item.Value.ItemId;
                     }
+                    Hashtable hash = new Hashtable();
+                    hash.Add("carId", item.Value.ItemId);
+                    PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
                     foreach (var button in _carPreviewButtons)
                     {
                         button.SetIsBought(false);
