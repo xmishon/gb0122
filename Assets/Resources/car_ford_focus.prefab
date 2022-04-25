@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 577435870888313926}
   - component: {fileID: 588192313432629654}
   m_Layer: 3
-  m_Name: Tire_LR
+  m_Name: Tire_BackLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 580554480676993808}
   - component: {fileID: 587796331959640402}
   m_Layer: 3
-  m_Name: Tire_LF
+  m_Name: Tire_FrontLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -405,17 +405,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a20f89f2d3e51b4ea51138c87744b87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frontWheelCollider:
+  frontLeftWheelColliders:
   - {fileID: 6096564706945733033}
+  frontRightWheelColliders:
   - {fileID: 6096564707046426759}
-  rearWheelCollider:
+  backLeftWheelColliders:
   - {fileID: 6096564706350343984}
+  backRightWheelColliders:
   - {fileID: 6096564707288759792}
-  frontWheelMesh:
+  frontLeftWheelMesh:
   - {fileID: 611731736023884742}
+  frontRightWheelMesh:
   - {fileID: 612355319592396646}
-  rearWheelMesh:
+  backLeftWheelMesh:
   - {fileID: 610507736638518738}
+  backRightWheelMesh:
   - {fileID: 612314794219389394}
   gearFactor:
   - 0
@@ -433,7 +437,7 @@ MonoBehaviour:
   brakeTorque: 1000
   minEngineRevs: 1000
   maxEngineRevs: 6600
-  maxEngineAngularIncreaseVel: 15000
+  maxEngineAngularIncreaseVel: 22500
   maxEngineAngularDecreaseVel: 10000
   engineCharacteristic:
     serializedVersion: 2
@@ -667,7 +671,7 @@ GameObject:
   - component: {fileID: 580011448668915360}
   - component: {fileID: 587970247756686536}
   m_Layer: 3
-  m_Name: Tire_RR
+  m_Name: Tire_BackRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -751,7 +755,7 @@ GameObject:
   - component: {fileID: 580158169042688962}
   - component: {fileID: 587872898268576564}
   m_Layer: 3
-  m_Name: Tire_RF
+  m_Name: Tire_FrontRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

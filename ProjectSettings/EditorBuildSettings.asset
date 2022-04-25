@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TestTrack.unity
     guid: 9d1fff29ff257a04194efe49a56d903c
+  - enabled: 1
+    path: Assets/Photon/PhotonUnityNetworking/Demos/DemoAsteroids/Scenes/DemoAsteroids-GameScene.unity
+    guid: 98efc37d6307844488eb3e4247dde7e9
   m_configObjects: {}

@@ -1007,18 +1007,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a20f89f2d3e51b4ea51138c87744b87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frontWheelCollider:
-  - {fileID: 4170275980716395965}
+  frontLeftWheelColliders:
   - {fileID: 4170275980406064772}
-  rearWheelCollider:
-  - {fileID: 4170275980614757089}
+  frontRightWheelColliders:
+  - {fileID: 4170275980716395965}
+  backLeftWheelColliders:
   - {fileID: 4170275980156521417}
-  frontWheelMesh:
-  - {fileID: 4170275981135111590}
+  backRightWheelColliders:
+  - {fileID: 4170275980614757089}
+  frontLeftWheelMesh:
   - {fileID: 4170275979922751799}
-  rearWheelMesh:
-  - {fileID: 4170275980115833732}
+  frontRightWheelMesh:
+  - {fileID: 4170275981135111590}
+  backLeftWheelMesh:
   - {fileID: 4170275981493216980}
+  backRightWheelMesh:
+  - {fileID: 4170275980115833732}
   gearFactor:
   - 0
   - 3.5
@@ -1155,7 +1159,8 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 3470679459392056869}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

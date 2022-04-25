@@ -4,10 +4,17 @@ namespace Car {
 
     public class CarController : MonoBehaviour
     {
-        public WheelCollider[] frontWheelCollider;
-        public WheelCollider[] rearWheelCollider;
-        public GameObject[] frontWheelMesh;
-        public GameObject[] rearWheelMesh;
+        //public WheelCollider[] frontWheelCollider;
+        //public WheelCollider[] rearWheelCollider;
+        public WheelCollider[] frontLeftWheelColliders;
+        public WheelCollider[] frontRightWheelColliders;
+        public WheelCollider[] backLeftWheelColliders;
+        public WheelCollider[] backRightWheelColliders;
+
+        public GameObject[] frontLeftWheelMesh;
+        public GameObject[] frontRightWheelMesh;
+        public GameObject[] backLeftWheelMesh;
+        public GameObject[] backRightWheelMesh;
         public float[] gearFactor = { 0f, 3.5f, 2.273f, 1.531f, 1.122f, 1.076f, 0.951f, 0.795f, -4.17f };
         public float mainFactor = 4.37f;
         public float maxSteerAngle = 25f;
@@ -39,7 +46,7 @@ namespace Car {
         public float InputBrake { get; private set; }
         public int GearNumber { get; private set; }
         public float MaxSpeed { get { return m_Topspeed; } }
-        public float CurrentSpeed { get { return m_Rigidbody.velocity.magnitude * 2.23693629f; } }
+        public float CurrentSpeed { get { return m_Rigidbody.velocity.magnitude * 3.6f; } }//2.23693629f; } }
 
         public float FwdSlipFL { get; private set; }
         public float FwdSlipFR { get; private set; }
@@ -73,24 +80,40 @@ namespace Car {
             CalculateWheelsTorque(GearNumber);
 
             // set meshes position
-            for (int i = 0; i < frontWheelCollider.Length; i++)
+            for (int i = 0; i < frontLeftWheelColliders.Length; i++)
             {
                 Quaternion quat;
                 Vector3 position;
-                frontWheelCollider[i].GetWorldPose(out position, out quat);
-                frontWheelMesh[i].transform.position = position;
-                frontWheelMesh[i].transform.rotation = quat;
+                frontLeftWheelColliders[i].GetWorldPose(out position, out quat);
+                frontLeftWheelMesh[i].transform.position = position;
+                frontLeftWheelMesh[i].transform.rotation = quat;
             }
-            for (int i = 0; i < rearWheelCollider.Length; i++)
+            for (int i = 0; i < frontRightWheelColliders.Length; i++)
             {
                 Quaternion quat;
                 Vector3 position;
-                rearWheelCollider[i].GetWorldPose(out position, out quat);
-                rearWheelMesh[i].transform.position = position;
-                rearWheelMesh[i].transform.rotation = quat;
+                frontRightWheelColliders[i].GetWorldPose(out position, out quat);
+                frontRightWheelMesh[i].transform.position = position;
+                frontRightWheelMesh[i].transform.rotation = quat;
+            }
+            for (int i = 0; i < backLeftWheelColliders.Length; i++)
+            {
+                Quaternion quat;
+                Vector3 position;
+                backLeftWheelColliders[i].GetWorldPose(out position, out quat);
+                backLeftWheelMesh[i].transform.position = position;
+                backLeftWheelMesh[i].transform.rotation = quat;
+            }
+            for (int i = 0; i < frontRightWheelColliders.Length; i++)
+            {
+                Quaternion quat;
+                Vector3 position;
+                backRightWheelColliders[i].GetWorldPose(out position, out quat);
+                backRightWheelMesh[i].transform.position = position;
+                backRightWheelMesh[i].transform.rotation = quat;
             }
 
-            if(transform.GetComponent<Rigidbody>().velocity.magnitude < 1 && acceleration < 0)
+            if (transform.GetComponent<Rigidbody>().velocity.magnitude < 1 && acceleration < 0)
             {
                 TurnOnBackwardGear();
             } else if (transform.GetComponent<Rigidbody>().velocity.magnitude < 1 && acceleration > 0)
@@ -110,17 +133,21 @@ namespace Car {
             SteerHelper();
             ApplyAcceleration(steerAngle, acceleration, brake, handbrake);
             AddDownForce();
-            FillWheelInfo();
+            //FillWheelInfo();
         }
 
         private void CalculateEngineRevs(int gearNumber)
         {
             float averageWheelRevs = 0;
-            for (int i = 0; i < rearWheelCollider.Length; i++)
+            for (int i = 0; i < backLeftWheelColliders.Length; i++)
             {
-                averageWheelRevs += rearWheelCollider[i].rpm;
+                averageWheelRevs += backLeftWheelColliders[i].rpm;
             }
-            averageWheelRevs /= (float) rearWheelCollider.Length;
+            for (int i = 0; i < backRightWheelColliders.Length; i++)
+            {
+                averageWheelRevs += backRightWheelColliders[i].rpm;
+            }
+            averageWheelRevs /= (backLeftWheelColliders.Length + backRightWheelColliders.Length);
             float engineRevs = averageWheelRevs * gearFactorOnWheels[gearNumber];
             //check if revs changed too quickly
             if ((engineRevs - CurrentEngineRevs) > maxEngineRevsIncreasePerTimeStep)
@@ -143,20 +170,33 @@ namespace Car {
         private void ApplyAcceleration(float steerAngle, float acceleration, float brake, float handbrake)
         {
             // apply acceleration
-            for (int i = 0; i < rearWheelCollider.Length; i++)
-                rearWheelCollider[i].motorTorque = acceleration * currentWheelsTorque / (float)rearWheelCollider.Length;
+            for (int i = 0; i < backLeftWheelColliders.Length; i++)
+                backLeftWheelColliders[i].motorTorque = acceleration * currentWheelsTorque / (float)backLeftWheelColliders.Length / 2;
+            for (int i = 0; i < frontRightWheelColliders.Length; i++)
+                backRightWheelColliders[i].motorTorque = acceleration * currentWheelsTorque / (float)backRightWheelColliders.Length / 2;
             // apply brakes
-            for (int i = 0; i < rearWheelCollider.Length; i++)
+            for (int i = 0; i < backLeftWheelColliders.Length; i++)
                 if (handbrake > 0)
                 {
-                    rearWheelCollider[i].brakeTorque = float.MaxValue * brakeTorque / (float)rearWheelCollider.Length;
+                    backLeftWheelColliders[i].brakeTorque = float.MaxValue * brakeTorque / (float)backLeftWheelColliders.Length / 2;
                 }
                 else
                 {
-                    rearWheelCollider[i].brakeTorque = brake * brakeTorque / (float)rearWheelCollider.Length;
+                    backLeftWheelColliders[i].brakeTorque = brake * brakeTorque / (float)backLeftWheelColliders.Length / 2;
                 }
-            for (int i = 0; i < rearWheelCollider.Length; i++)
-                frontWheelCollider[i].brakeTorque = brake * brakeTorque / (float)rearWheelCollider.Length;
+            for (int i = 0; i < backRightWheelColliders.Length; i++)
+                if (handbrake > 0)
+                {
+                    backRightWheelColliders[i].brakeTorque = float.MaxValue * brakeTorque / (float)backRightWheelColliders.Length / 2;
+                }
+                else
+                {
+                    backRightWheelColliders[i].brakeTorque = brake * brakeTorque / (float)backRightWheelColliders.Length / 2;
+                }
+            for (int i = 0; i < frontLeftWheelColliders.Length; i++)
+                frontLeftWheelColliders[i].brakeTorque = brake * brakeTorque / (float)frontLeftWheelColliders.Length / 2;
+            for (int i = 0; i < frontRightWheelColliders.Length; i++)
+                frontRightWheelColliders[i].brakeTorque = brake * brakeTorque / (float)frontRightWheelColliders.Length / 2;
             // apply steering
             // calculate steering coorrection, if the car moves sideways
             //float sideSpeed = Vector3.Dot(m_Rigidbody.velocity, transform.right); // calculate side speed
@@ -187,25 +227,27 @@ namespace Car {
             float fwdSpeed = Vector3.Dot(m_Rigidbody.velocity, transform.forward);
             float temp = Mathf.Log(Mathf.Abs(0.1f * fwdSpeed) + 0.5f) * 8f; // magic...
             float correction = temp > (maxSteerAngle - 1) ? (maxSteerAngle - 1) : temp;
-            for (int i = 0; i < frontWheelCollider.Length; i++)
-                frontWheelCollider[i].steerAngle = steerAngle * maxSteerAngle - steerAngle * correction;
+            for (int i = 0; i < frontLeftWheelColliders.Length; i++)
+                frontLeftWheelColliders[i].steerAngle = steerAngle * maxSteerAngle - steerAngle * correction;
+            for (int i = 0; i < frontRightWheelColliders.Length; i++)
+                frontRightWheelColliders[i].steerAngle = steerAngle * maxSteerAngle - steerAngle * correction;
         }
 
         private void CalculateWheelsTorque(int gearNumber)
         {
             // normalize revs and torque (set value between 0 and 1)
-            if (revsExceed == 0)
-            {
+            //if (revsExceed == 0)
+            //{
                 float normalizedRevs = (CurrentEngineRevs - minEngineRevs) / (maxEngineRevs - minEngineRevs);
                 float normalizedTorque = engineCharacteristic.Evaluate(normalizedRevs);
                 currentWheelsTorque = gearFactorOnWheels[gearNumber] * maxEngineTorque * normalizedTorque;
-            } else if (revsExceed == 1) // if engine revs has been increased very quickly we simulate resistance
-            {
-                currentWheelsTorque = -1;
-            } else
-            {
-                currentWheelsTorque = 1;
-            }
+            //} else if (revsExceed == 1) // if engine revs has been increased very quickly we simulate resistance
+            //{
+            //    currentWheelsTorque = -1;
+            //} else
+            //{
+            //    currentWheelsTorque = 1;
+            //}
         }
 
         private void SwitchGear()
@@ -269,16 +311,16 @@ namespace Car {
             m_OldRotation = transform.eulerAngles.y;
         }
 
-        private void FillWheelInfo()
-        {
-            frontWheelCollider[0].GetGroundHit(out WheelHit wheelHit);
-            FwdSlipFL = wheelHit.sidewaysSlip;
-            frontWheelCollider[1].GetGroundHit(out wheelHit);
-            FwdSlipFR = wheelHit.sidewaysSlip;
-            rearWheelCollider[0].GetGroundHit(out wheelHit);
-            FwdSlipRL = wheelHit.sidewaysSlip;
-            rearWheelCollider[1].GetGroundHit(out wheelHit);
-            FwdSlipRR = wheelHit.sidewaysSlip;
-        }
+        //private void FillWheelInfo()
+        //{
+        //    frontWheelCollider[0].GetGroundHit(out WheelHit wheelHit);
+        //    FwdSlipFL = wheelHit.sidewaysSlip;
+        //    frontWheelCollider[1].GetGroundHit(out wheelHit);
+        //    FwdSlipFR = wheelHit.sidewaysSlip;
+        //    rearWheelCollider[0].GetGroundHit(out wheelHit);
+        //    FwdSlipRL = wheelHit.sidewaysSlip;
+        //    rearWheelCollider[1].GetGroundHit(out wheelHit);
+        //    FwdSlipRR = wheelHit.sidewaysSlip;
+        //}
     }
 }

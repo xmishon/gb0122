@@ -19,7 +19,7 @@ namespace Car
         }
 
 
-        void FixedUpdate()
+        void Update()
         {
             float h, v, handbrake = 0f;
             h = Input.GetAxis("Horizontal");
