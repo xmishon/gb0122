@@ -11,6 +11,7 @@ public class RaceManager : MonoBehaviour
     
     private List<GameObject> _startPoints;
     private GameObject _car;
+    private GameUI _gameUi;
 
     private void Start()
     {
@@ -39,9 +40,13 @@ public class RaceManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.Escape))
+        if (Input.GetKeyUp(KeyCode.Escape))
         {
             SceneManager.LoadScene(1);
+        }
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            _gameUi.InitializeUI(_car.GetComponent<Car.CarController>());
         }
     }
 
@@ -76,7 +81,7 @@ public class RaceManager : MonoBehaviour
     private void InstantiateUI()
     {
         GameObject gameObject = Instantiate(Resources.Load<GameObject>("UI/GameUI"));
-        GameUI gameUi = gameObject.GetComponent<GameUI>();
-        gameUi.InitializeUI(_car.GetComponent<Car.CarController>());
+        _gameUi = gameObject.GetComponent<GameUI>();
+        _gameUi.InitializeUI(_car.GetComponent<Car.CarController>());
     }
 }

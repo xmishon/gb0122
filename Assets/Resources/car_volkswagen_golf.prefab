@@ -1011,9 +1011,9 @@ MonoBehaviour:
   - {fileID: 4170275980406064772}
   frontRightWheelColliders:
   - {fileID: 4170275980716395965}
-  backLeftWheelColliders:
+  rearLeftWheelColliders:
   - {fileID: 4170275980156521417}
-  backRightWheelColliders:
+  rearRightWheelColliders:
   - {fileID: 4170275980614757089}
   frontLeftWheelMesh:
   - {fileID: 4170275979922751799}

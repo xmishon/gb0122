@@ -17,6 +17,8 @@ public class GameUI : MonoBehaviour
     private TextMeshProUGUI _gearNumberText;
     [SerializeField]
     private TextMeshProUGUI _speedometerText;
+    [SerializeField]
+    private TireSlipPanel _tireSlipPanel;
 
     private GearNumberIndicator _gearNumberIndicator;
     private Tachometer _tachometer;
@@ -28,6 +30,7 @@ public class GameUI : MonoBehaviour
         _gearNumberIndicator = new GearNumberIndicator(_gearNumberText, carController);
         _tachometer = new Tachometer(_arrow, _revsMin, _revsMax, _arrowAngleMin, _arrowAngleMax, carController);
         _speedometer = new Speedometer(_speedometerText, carController);
+        _tireSlipPanel.Initialize(carController);
         _initialized = true;
     }
 
@@ -40,5 +43,6 @@ public class GameUI : MonoBehaviour
         _gearNumberIndicator.UpdateGearNumber();
         _tachometer.SetArrowPosition();
         _speedometer.UpdateSpeed();
+        _tireSlipPanel.UpdateIndicators();
     }
 }

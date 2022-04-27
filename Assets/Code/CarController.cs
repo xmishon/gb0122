@@ -8,8 +8,8 @@ namespace Car {
         //public WheelCollider[] rearWheelCollider;
         public WheelCollider[] frontLeftWheelColliders;
         public WheelCollider[] frontRightWheelColliders;
-        public WheelCollider[] backLeftWheelColliders;
-        public WheelCollider[] backRightWheelColliders;
+        public WheelCollider[] rearLeftWheelColliders;
+        public WheelCollider[] rearRightWheelColliders;
 
         public GameObject[] frontLeftWheelMesh;
         public GameObject[] frontRightWheelMesh;
@@ -96,11 +96,11 @@ namespace Car {
                 frontRightWheelMesh[i].transform.position = position;
                 frontRightWheelMesh[i].transform.rotation = quat;
             }
-            for (int i = 0; i < backLeftWheelColliders.Length; i++)
+            for (int i = 0; i < rearLeftWheelColliders.Length; i++)
             {
                 Quaternion quat;
                 Vector3 position;
-                backLeftWheelColliders[i].GetWorldPose(out position, out quat);
+                rearLeftWheelColliders[i].GetWorldPose(out position, out quat);
                 backLeftWheelMesh[i].transform.position = position;
                 backLeftWheelMesh[i].transform.rotation = quat;
             }
@@ -108,7 +108,7 @@ namespace Car {
             {
                 Quaternion quat;
                 Vector3 position;
-                backRightWheelColliders[i].GetWorldPose(out position, out quat);
+                rearRightWheelColliders[i].GetWorldPose(out position, out quat);
                 backRightWheelMesh[i].transform.position = position;
                 backRightWheelMesh[i].transform.rotation = quat;
             }
@@ -139,15 +139,15 @@ namespace Car {
         private void CalculateEngineRevs(int gearNumber)
         {
             float averageWheelRevs = 0;
-            for (int i = 0; i < backLeftWheelColliders.Length; i++)
+            for (int i = 0; i < rearLeftWheelColliders.Length; i++)
             {
-                averageWheelRevs += backLeftWheelColliders[i].rpm;
+                averageWheelRevs += rearLeftWheelColliders[i].rpm;
             }
-            for (int i = 0; i < backRightWheelColliders.Length; i++)
+            for (int i = 0; i < rearRightWheelColliders.Length; i++)
             {
-                averageWheelRevs += backRightWheelColliders[i].rpm;
+                averageWheelRevs += rearRightWheelColliders[i].rpm;
             }
-            averageWheelRevs /= (backLeftWheelColliders.Length + backRightWheelColliders.Length);
+            averageWheelRevs /= (rearLeftWheelColliders.Length + rearRightWheelColliders.Length);
             float engineRevs = averageWheelRevs * gearFactorOnWheels[gearNumber];
             //check if revs changed too quickly
             if ((engineRevs - CurrentEngineRevs) > maxEngineRevsIncreasePerTimeStep)
@@ -170,28 +170,28 @@ namespace Car {
         private void ApplyAcceleration(float steerAngle, float acceleration, float brake, float handbrake)
         {
             // apply acceleration
-            for (int i = 0; i < backLeftWheelColliders.Length; i++)
-                backLeftWheelColliders[i].motorTorque = acceleration * currentWheelsTorque / (float)backLeftWheelColliders.Length / 2;
+            for (int i = 0; i < rearLeftWheelColliders.Length; i++)
+                rearLeftWheelColliders[i].motorTorque = acceleration * currentWheelsTorque / (float)rearLeftWheelColliders.Length / 2;
             for (int i = 0; i < frontRightWheelColliders.Length; i++)
-                backRightWheelColliders[i].motorTorque = acceleration * currentWheelsTorque / (float)backRightWheelColliders.Length / 2;
+                rearRightWheelColliders[i].motorTorque = acceleration * currentWheelsTorque / (float)rearRightWheelColliders.Length / 2;
             // apply brakes
-            for (int i = 0; i < backLeftWheelColliders.Length; i++)
+            for (int i = 0; i < rearLeftWheelColliders.Length; i++)
                 if (handbrake > 0)
                 {
-                    backLeftWheelColliders[i].brakeTorque = float.MaxValue * brakeTorque / (float)backLeftWheelColliders.Length / 2;
+                    rearLeftWheelColliders[i].brakeTorque = float.MaxValue * brakeTorque / (float)rearLeftWheelColliders.Length / 2;
                 }
                 else
                 {
-                    backLeftWheelColliders[i].brakeTorque = brake * brakeTorque / (float)backLeftWheelColliders.Length / 2;
+                    rearLeftWheelColliders[i].brakeTorque = brake * brakeTorque / (float)rearLeftWheelColliders.Length / 2;
                 }
-            for (int i = 0; i < backRightWheelColliders.Length; i++)
+            for (int i = 0; i < rearRightWheelColliders.Length; i++)
                 if (handbrake > 0)
                 {
-                    backRightWheelColliders[i].brakeTorque = float.MaxValue * brakeTorque / (float)backRightWheelColliders.Length / 2;
+                    rearRightWheelColliders[i].brakeTorque = float.MaxValue * brakeTorque / (float)rearRightWheelColliders.Length / 2;
                 }
                 else
                 {
-                    backRightWheelColliders[i].brakeTorque = brake * brakeTorque / (float)backRightWheelColliders.Length / 2;
+                    rearRightWheelColliders[i].brakeTorque = brake * brakeTorque / (float)rearRightWheelColliders.Length / 2;
                 }
             for (int i = 0; i < frontLeftWheelColliders.Length; i++)
                 frontLeftWheelColliders[i].brakeTorque = brake * brakeTorque / (float)frontLeftWheelColliders.Length / 2;
