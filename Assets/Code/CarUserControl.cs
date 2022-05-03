@@ -22,7 +22,7 @@ namespace Car
         void Update()
         {
             float h, v, handbrake = 0f;
-            h = Input.GetAxis("Horizontal");
+            h = Input.GetAxisRaw("Horizontal");
             v = Input.GetAxis("Vertical");
             if (Input.GetKey(KeyCode.Space))
                 handbrake = 1f;

@@ -4,8 +4,6 @@ namespace Car {
 
     public class CarController : MonoBehaviour
     {
-        //public WheelCollider[] frontWheelCollider;
-        //public WheelCollider[] rearWheelCollider;
         public WheelCollider[] frontLeftWheelColliders;
         public WheelCollider[] frontRightWheelColliders;
         public WheelCollider[] rearLeftWheelColliders;
@@ -38,7 +36,9 @@ namespace Car {
         private float m_Topspeed = 230f;
         private Rigidbody m_Rigidbody;
         [SerializeField] private float m_SlipLimit = 0.2f;
-        //private float steerAngleCorrection = 0f;
+        [SerializeField] private float _steeringSensetivity = 1.0f;
+        private float _currentSteerAngle;
+        private float _steerTarget;
         private float m_OldRotation;
 
         public float CurrentEngineRevs { get; private set; }
@@ -131,9 +131,9 @@ namespace Car {
             InputBrake = brake = -1f * Mathf.Clamp(brake, -1, 0);
 
             SteerHelper();
-            ApplyAcceleration(steerAngle, acceleration, brake, handbrake);
+            ApplyAcceleration(acceleration, brake, handbrake);
+            ApplySteering(steerAngle);
             AddDownForce();
-            //FillWheelInfo();
         }
 
         private void CalculateEngineRevs(int gearNumber)
@@ -167,7 +167,7 @@ namespace Car {
             CurrentEngineRevs = engineRevs;
         }
 
-        private void ApplyAcceleration(float steerAngle, float acceleration, float brake, float handbrake)
+        private void ApplyAcceleration(float acceleration, float brake, float handbrake)
         {
             // apply acceleration
             for (int i = 0; i < rearLeftWheelColliders.Length; i++)
@@ -223,14 +223,34 @@ namespace Car {
             //        steerAngleCorrection += 0.01f;
             //}
             //steerAngleCorrection = Mathf.Clamp(steerAngleCorrection, -1f, 1f);
+        }
 
-            float fwdSpeed = Vector3.Dot(m_Rigidbody.velocity, transform.forward);
-            float temp = Mathf.Log(Mathf.Abs(0.1f * fwdSpeed) + 0.5f) * 8f; // magic...
-            float correction = temp > (maxSteerAngle - 1) ? (maxSteerAngle - 1) : temp;
+        private void ApplySteering(float steerInput)
+        {
+            if (steerInput == 0)
+            {
+                if (m_Rigidbody.velocity == Vector3.zero)
+                {
+                    _steerTarget = 0.0f;
+                } 
+                else
+                {
+                    _steerTarget = Vector3.SignedAngle(transform.forward, m_Rigidbody.velocity, transform.up);
+                }
+            }
+            _steerTarget += steerInput * maxSteerAngle;
+
+            
+
+            _currentSteerAngle += _steerTarget > _currentSteerAngle 
+                ? _steeringSensetivity * Time.fixedDeltaTime 
+                : -_steeringSensetivity * Time.fixedDeltaTime;
+            _currentSteerAngle = Mathf.Clamp(_currentSteerAngle, -maxSteerAngle, maxSteerAngle);
+            
             for (int i = 0; i < frontLeftWheelColliders.Length; i++)
-                frontLeftWheelColliders[i].steerAngle = steerAngle * maxSteerAngle - steerAngle * correction;
+                frontLeftWheelColliders[i].steerAngle = Mathf.Clamp(_currentSteerAngle, -maxSteerAngle, maxSteerAngle);
             for (int i = 0; i < frontRightWheelColliders.Length; i++)
-                frontRightWheelColliders[i].steerAngle = steerAngle * maxSteerAngle - steerAngle * correction;
+                frontRightWheelColliders[i].steerAngle = Mathf.Clamp(_currentSteerAngle, -maxSteerAngle, maxSteerAngle);
         }
 
         private void CalculateWheelsTorque(int gearNumber)
@@ -310,17 +330,5 @@ namespace Car {
             }
             m_OldRotation = transform.eulerAngles.y;
         }
-
-        //private void FillWheelInfo()
-        //{
-        //    frontWheelCollider[0].GetGroundHit(out WheelHit wheelHit);
-        //    FwdSlipFL = wheelHit.sidewaysSlip;
-        //    frontWheelCollider[1].GetGroundHit(out wheelHit);
-        //    FwdSlipFR = wheelHit.sidewaysSlip;
-        //    rearWheelCollider[0].GetGroundHit(out wheelHit);
-        //    FwdSlipRL = wheelHit.sidewaysSlip;
-        //    rearWheelCollider[1].GetGroundHit(out wheelHit);
-        //    FwdSlipRR = wheelHit.sidewaysSlip;
-        //}
     }
 }

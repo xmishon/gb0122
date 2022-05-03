@@ -155,6 +155,7 @@ MonoBehaviour:
   m_Downforce: 100
   m_SteerHelper: 0.1
   m_SlipLimit: 0.2
+  _steeringSensetivity: 40
 --- !u!114 &612085370331183756
 MonoBehaviour:
   m_ObjectHideFlags: 0
