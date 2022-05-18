@@ -24,6 +24,7 @@ namespace Car {
         public float maxEngineAngularDecreaseVel = 10000; // revs per second
         public AnimationCurve engineCharacteristic;
         public float m_Downforce = 100f;
+        [Range(0, 1)] [SerializeField] private float _counterSteeringAssist = 0.5f;
         [Range(0, 1)] [SerializeField] private float m_SteerHelper; // 0 is raw physics , 1 the car will grip in the direction it is facing
 
         private float currentWheelsTorque;
@@ -227,30 +228,37 @@ namespace Car {
 
         private void ApplySteering(float steerInput)
         {
-            if (steerInput == 0)
+            float steerCorrection;
+            if (m_Rigidbody.velocity.sqrMagnitude <= 1)
             {
-                if (m_Rigidbody.velocity == Vector3.zero)
+                steerCorrection = 0.0f;
+            } else
+            {
+                steerCorrection = Vector3.SignedAngle(transform.forward, m_Rigidbody.velocity, transform.up);
+                if (Mathf.Abs(steerCorrection) >= 60)
                 {
-                    _steerTarget = 0.0f;
-                } 
+                    steerCorrection = 0;
+                }
                 else
                 {
-                    _steerTarget = Vector3.SignedAngle(transform.forward, m_Rigidbody.velocity, transform.up);
+                    steerCorrection *= _counterSteeringAssist;
                 }
             }
-            _steerTarget += steerInput * maxSteerAngle;
 
-            
+            _currentSteerAngle = steerInput * maxSteerAngle;
 
-            _currentSteerAngle += _steerTarget > _currentSteerAngle 
-                ? _steeringSensetivity * Time.fixedDeltaTime 
-                : -_steeringSensetivity * Time.fixedDeltaTime;
-            _currentSteerAngle = Mathf.Clamp(_currentSteerAngle, -maxSteerAngle, maxSteerAngle);
+            _steerTarget = _currentSteerAngle + steerCorrection;
+            _steerTarget = Mathf.Clamp(_steerTarget, -maxSteerAngle, maxSteerAngle);
+
+            //_currentSteerAngle += _steerTarget > _currentSteerAngle 
+            //    ? _steeringSensetivity * Time.fixedDeltaTime 
+            //    : -_steeringSensetivity * Time.fixedDeltaTime;
+            //_currentSteerAngle = Mathf.Clamp(_currentSteerAngle, -maxSteerAngle, maxSteerAngle);
             
             for (int i = 0; i < frontLeftWheelColliders.Length; i++)
-                frontLeftWheelColliders[i].steerAngle = Mathf.Clamp(_currentSteerAngle, -maxSteerAngle, maxSteerAngle);
+                frontLeftWheelColliders[i].steerAngle = _steerTarget;
             for (int i = 0; i < frontRightWheelColliders.Length; i++)
-                frontRightWheelColliders[i].steerAngle = Mathf.Clamp(_currentSteerAngle, -maxSteerAngle, maxSteerAngle);
+                frontRightWheelColliders[i].steerAngle = _steerTarget;
         }
 
         private void CalculateWheelsTorque(int gearNumber)
@@ -274,7 +282,7 @@ namespace Car {
         {
             if (GearNumber < gearFactor.Length - 1)
             {
-                if (CurrentEngineRevs > (maxEngineRevs - 200))
+                if (CurrentEngineRevs > (maxEngineRevs - 600))
                 {
                     ShiftGearUp();
                 }

@@ -153,6 +153,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   m_Downforce: 100
+  _counterSteeringAssist: 0.5
   m_SteerHelper: 0.1
   m_SlipLimit: 0.2
   _steeringSensetivity: 40
@@ -542,13 +543,13 @@ WheelCollider:
     m_ExtremumValue: 1
     m_AsymptoteSlip: 4
     m_AsymptoteValue: 0.2
-    m_Stiffness: 1.3
+    m_Stiffness: 1
   m_SidewaysFriction:
     m_ExtremumSlip: 0.6
     m_ExtremumValue: 1
-    m_AsymptoteSlip: 4
+    m_AsymptoteSlip: 2
     m_AsymptoteValue: 0.3
-    m_Stiffness: 1.3
+    m_Stiffness: 1
   m_Enabled: 1
 --- !u!1 &6096564706440417932
 GameObject:
@@ -647,13 +648,13 @@ WheelCollider:
     m_ExtremumValue: 1
     m_AsymptoteSlip: 4
     m_AsymptoteValue: 0.2
-    m_Stiffness: 1.3
+    m_Stiffness: 1
   m_SidewaysFriction:
     m_ExtremumSlip: 0.6
     m_ExtremumValue: 1
-    m_AsymptoteSlip: 4
+    m_AsymptoteSlip: 2
     m_AsymptoteValue: 0.3
-    m_Stiffness: 1.3
+    m_Stiffness: 1
   m_Enabled: 1
 --- !u!1 &6096564707046426761
 GameObject:
@@ -708,13 +709,13 @@ WheelCollider:
     m_ExtremumValue: 1
     m_AsymptoteSlip: 4
     m_AsymptoteValue: 0.2
-    m_Stiffness: 1.3
+    m_Stiffness: 1
   m_SidewaysFriction:
     m_ExtremumSlip: 0.6
     m_ExtremumValue: 1
-    m_AsymptoteSlip: 4
+    m_AsymptoteSlip: 2
     m_AsymptoteValue: 0.3
-    m_Stiffness: 1.3
+    m_Stiffness: 1
   m_Enabled: 1
 --- !u!1 &6096564707142034544
 GameObject:
@@ -859,13 +860,13 @@ WheelCollider:
     m_ExtremumValue: 1
     m_AsymptoteSlip: 4
     m_AsymptoteValue: 0.2
-    m_Stiffness: 1.3
+    m_Stiffness: 1
   m_SidewaysFriction:
     m_ExtremumSlip: 0.6
     m_ExtremumValue: 1
-    m_AsymptoteSlip: 4
+    m_AsymptoteSlip: 2
     m_AsymptoteValue: 0.3
-    m_Stiffness: 1.3
+    m_Stiffness: 1
   m_Enabled: 1
 --- !u!1001 &776443249215718432
 PrefabInstance:
