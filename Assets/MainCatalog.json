@@ -1,0 +1,174 @@
+{
+  "CatalogVersion": "0.1",
+  "Catalog": [
+    {
+      "ItemId": "engine_stage_2",
+      "ItemClass": "Enhancements",
+      "CatalogVersion": "0.1",
+      "DisplayName": "Engine stage 2",
+      "Description": "Increase the power of a car engine",
+      "VirtualCurrencyPrices": {
+        "RM": 100,
+        "DG": 2500
+      },
+      "RealCurrencyPrices": {},
+      "Tags": [
+        "power"
+      ],
+      "CustomData": null,
+      "Consumable": {
+        "UsageCount": null,
+        "UsagePeriod": null,
+        "UsagePeriodGroup": null
+      },
+      "Container": null,
+      "Bundle": null,
+      "CanBecomeCharacter": false,
+      "IsStackable": false,
+      "IsTradable": false,
+      "ItemImageUrl": null,
+      "IsLimitedEdition": false,
+      "InitialLimitedEditionCount": 0,
+      "ActivatedMembership": null
+    },
+    {
+      "ItemId": "engine_stage_3",
+      "ItemClass": "Enhancements",
+      "CatalogVersion": "0.1",
+      "DisplayName": "Engine stage 3",
+      "Description": "Significantly increase the power of a car engine",
+      "VirtualCurrencyPrices": {
+        "RM": 300,
+        "DG": 7500
+      },
+      "RealCurrencyPrices": {},
+      "Tags": [
+        "power"
+      ],
+      "CustomData": null,
+      "Consumable": {
+        "UsageCount": null,
+        "UsagePeriod": null,
+        "UsagePeriodGroup": null
+      },
+      "Container": null,
+      "Bundle": null,
+      "CanBecomeCharacter": false,
+      "IsStackable": false,
+      "IsTradable": false,
+      "ItemImageUrl": null,
+      "IsLimitedEdition": false,
+      "InitialLimitedEditionCount": 0,
+      "ActivatedMembership": null
+    },
+    {
+      "ItemId": "transmission_level_2",
+      "ItemClass": "Enhancements",
+      "CatalogVersion": "0.1",
+      "DisplayName": "Transmission level 2",
+      "Description": null,
+      "VirtualCurrencyPrices": {
+        "DG": 2500
+      },
+      "RealCurrencyPrices": null,
+      "Tags": [],
+      "CustomData": null,
+      "Consumable": {
+        "UsageCount": null,
+        "UsagePeriod": null,
+        "UsagePeriodGroup": null
+      },
+      "Container": null,
+      "Bundle": null,
+      "CanBecomeCharacter": false,
+      "IsStackable": false,
+      "IsTradable": false,
+      "ItemImageUrl": null,
+      "IsLimitedEdition": false,
+      "InitialLimitedEditionCount": 0,
+      "ActivatedMembership": null
+    },
+    {
+      "ItemId": "transmission_level_3",
+      "ItemClass": "Enhancements",
+      "CatalogVersion": "0.1",
+      "DisplayName": "Transmission level 3",
+      "Description": null,
+      "VirtualCurrencyPrices": {
+        "DG": 7500
+      },
+      "RealCurrencyPrices": null,
+      "Tags": [],
+      "CustomData": null,
+      "Consumable": {
+        "UsageCount": null,
+        "UsagePeriod": null,
+        "UsagePeriodGroup": null
+      },
+      "Container": null,
+      "Bundle": null,
+      "CanBecomeCharacter": false,
+      "IsStackable": false,
+      "IsTradable": false,
+      "ItemImageUrl": null,
+      "IsLimitedEdition": false,
+      "InitialLimitedEditionCount": 0,
+      "ActivatedMembership": null
+    },
+    {
+      "ItemId": "car_ford_focus",
+      "ItemClass": "Car",
+      "CatalogVersion": "0.1",
+      "DisplayName": "Ford Focus",
+      "Description": null,
+      "VirtualCurrencyPrices": {
+        "DG": 5000
+      },
+      "RealCurrencyPrices": {},
+      "Tags": [],
+      "CustomData": null,
+      "Consumable": {
+        "UsageCount": null,
+        "UsagePeriod": null,
+        "UsagePeriodGroup": null
+      },
+      "Container": null,
+      "Bundle": null,
+      "CanBecomeCharacter": false,
+      "IsStackable": false,
+      "IsTradable": false,
+      "ItemImageUrl": null,
+      "IsLimitedEdition": false,
+      "InitialLimitedEditionCount": 0,
+      "ActivatedMembership": null
+    },
+    {
+      "ItemId": "car_pontiac_gto",
+      "ItemClass": "Car",
+      "CatalogVersion": "0.1",
+      "DisplayName": "Pontiac GTO",
+      "Description": null,
+      "VirtualCurrencyPrices": {
+        "DG": 15000
+      },
+      "RealCurrencyPrices": null,
+      "Tags": [],
+      "CustomData": null,
+      "Consumable": {
+        "UsageCount": null,
+        "UsagePeriod": null,
+        "UsagePeriodGroup": null
+      },
+      "Container": null,
+      "Bundle": null,
+      "CanBecomeCharacter": false,
+      "IsStackable": false,
+      "IsTradable": false,
+      "ItemImageUrl": null,
+      "IsLimitedEdition": false,
+      "InitialLimitedEditionCount": 0,
+      "ActivatedMembership": null
+    }
+  ],
+  "DropTables": []
+}
